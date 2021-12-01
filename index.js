@@ -4,7 +4,6 @@ const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
 const Person = require('./models/person')
-const { count } = require('./models/person')
 
 app.use(cors())
 app.use(express.json())
@@ -83,6 +82,8 @@ const errorHandler = (error, req, res, next) => {
   console.error(error.message)
   if(error.name === 'CastError'){
     res.status(400).send({error: 'malformatted query'})
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({error: error.message})
   }
   next(error)
 }
