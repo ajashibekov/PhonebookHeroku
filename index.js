@@ -65,7 +65,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.put('/api/persons/:id', (request, response, next) => {
   if(!request.body.number)
     return response.status(400).send({error: 'No number provided!'})
-  Person.findOneAndUpdate({id: request.params.id}, {number: request.body.number}, {new: true})
+  Person.findByIdAndUpdate(request.params.id, {number: request.body.number}, {new: true})
     .then(res => {
       console.log(res)
       response.json(res)
